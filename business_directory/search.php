@@ -2,13 +2,12 @@
 include 'db_connection.php';
 
 $search_term = isset($_GET['query']) ? trim($_GET['query']) : '';
-$category_id = isset($_GET['category_id']) ? $_GET['category_id'] : '';
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $results_per_page = 10;
 $offset = ($page - 1) * $results_per_page;
 
-if (empty($search_term) && empty($category_id)) {
-    die("Please enter a search term or select a category.");
+if (empty($search_term)) {
+    die("Please enter a search term.");
 }
 
 // Prepare the search term for use in SQL
@@ -19,56 +18,28 @@ $query = "
     SELECT b.business_id, b.name, b.description, b.contact_phone, c.category_name 
     FROM businesses b 
     LEFT JOIN categories c ON b.category_id = c.category_id 
-    WHERE (b.name LIKE :search_term OR 
-           b.description LIKE :search_term OR 
-           c.category_name LIKE :search_term)
+    WHERE (b.name LIKE '$search_term' OR 
+           b.description LIKE '$search_term' OR 
+           c.category_name LIKE '$search_term')
+    ORDER BY b.name ASC 
+    LIMIT $offset, $results_per_page
 ";
 
-// Add category filter conditionally
-if (!empty($category_id)) {
-    $query .= " AND b.category_id = :category_id";
-}
-
-// Add the LIMIT clause
-$query .= " ORDER BY b.name ASC LIMIT :offset, :results_per_page";
-
-// Prepare and execute the statement
-$stmt = $conn->prepare($query);
-
-// Bind parameters properly
-$stmt->bindValue(':search_term', $search_term, PDO::PARAM_STR);
-
-if (!empty($category_id)) {
-    $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
-}
-
-// Bind the offset and results_per_page as named parameters
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-$stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
-
-$stmt->execute();
-$paginated_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Execute the query
+$paginated_results = $conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
 // Get total number of results
 $count_query = "
     SELECT COUNT(*) 
     FROM businesses b 
     LEFT JOIN categories c ON b.category_id = c.category_id 
-    WHERE (b.name LIKE :search_term OR 
-           b.description LIKE :search_term OR 
-           c.category_name LIKE :search_term)";
-        
-if (!empty($category_id)) {
-    $count_query .= " AND b.category_id = :category_id";
-}
+    WHERE (b.name LIKE '$search_term' OR 
+           b.description LIKE '$search_term' OR 
+           c.category_name LIKE '$search_term')
+";
 
-$count_stmt = $conn->prepare($count_query);
-$count_stmt->bindValue(':search_term', $search_term, PDO::PARAM_STR);
-if (!empty($category_id)) {
-    $count_stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
-}
-$count_stmt->execute();
-$total_results = $count_stmt->fetchColumn();
+// Execute the count query
+$total_results = $conn->query($count_query)->fetchColumn();
 $total_pages = ceil($total_results / $results_per_page);
 ?>
 
@@ -91,25 +62,35 @@ $total_pages = ceil($total_results / $results_per_page);
         </nav>
     </header>
     <main>
-        <h2>Search Results for "<?php echo htmlspecialchars($search_term); ?>"</h2>
+        <h2>Search Results for "<?php echo htmlspecialchars($_GET['query']); ?>"</h2>
         <?php if (count($paginated_results) > 0): ?>
-            <ul>
-                <?php foreach ($paginated_results as $result): ?>
-                    <li>
-                        <strong><?php echo htmlspecialchars($result['name']); ?></strong><br>
-                        Category: <?php echo htmlspecialchars($result['category_name']); ?><br>
-                        Description: <?php echo htmlspecialchars($result['description']); ?><br>
-                        Contact: <?php echo htmlspecialchars($result['contact_phone']); ?><br>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($paginated_results as $result): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($result['name']); ?></td>
+                            <td><?php echo htmlspecialchars($result['category_name']); ?></td>
+                            <td><?php echo htmlspecialchars($result['description']); ?></td>
+                            <td><?php echo htmlspecialchars($result['contact_phone']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
             <div>
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="?query=<?php echo urlencode($search_term); ?>&category_id=<?php echo urlencode($category_id); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                    <a href="?query=<?php echo urlencode($_GET['query']); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                 <?php endfor; ?>
             </div>
         <?php else: ?>
-            <p>No results found for "<?php echo htmlspecialchars($search_term); ?>".</p>
+            <p>No results found for "<?php echo htmlspecialchars($_GET['query']); ?>".</p>
         <?php endif; ?>
     </main>
     <footer>
