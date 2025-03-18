@@ -26,6 +26,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
             <a href="categories.php">Categories</a>
             <a href="businesses.php">Businesses</a>
             <a href="add_business.php">Add Business</a>
+            <a href="approve_businesses.php">Approve Businesses</a> <!-- New link -->
             <a href="logout.php">Logout</a>
         </nav>
     </header>

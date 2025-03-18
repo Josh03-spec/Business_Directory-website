@@ -23,18 +23,18 @@
         <?php
         if (isset($_GET['category_id'])) {
             $category_id = $_GET['category_id'];
-            $stmt = $conn->prepare("SELECT * FROM businesses WHERE category_id = :category_id AND is_approved = TRUE");
+            $stmt = $conn->prepare("SELECT business_id, name, description FROM businesses WHERE category_id = :category_id AND is_approved = TRUE");
             $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
             $stmt->execute();
             echo "<h3>Category: " . htmlspecialchars($category_id) . "</h3>";
         } else {
-            $stmt = $conn->query("SELECT * FROM businesses WHERE is_approved = TRUE");
+            $stmt = $conn->query("SELECT business_id, name, description FROM businesses WHERE is_approved = TRUE");
         }
 
         if ($stmt->rowCount() > 0) {
             echo "<ul>";
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<li><strong>" . htmlspecialchars($row['name']) . "</strong><br>" . htmlspecialchars($row['description']) . "<br>Contact: " . htmlspecialchars($row['contact_phone']) . "<br>Address: " . htmlspecialchars($row['address']) . "<br>Website: <a href='" . htmlspecialchars($row['website']) . "'>" . htmlspecialchars($row['website']) . "</a></li>";
+                echo "<li><a href='business_detail.php?business_id=" . htmlspecialchars($row['business_id']) . "'><strong>" . htmlspecialchars($row['name']) . "</strong></a><br>" . htmlspecialchars(substr($row['description'], 0, 100)) . "...</li>";
             }
             echo "</ul>";
         } else {

@@ -8,6 +8,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nkozi Online - Home</title>
     <link rel="stylesheet" href="home_styles.css"> <!-- Link to the new CSS file -->
+    <style>
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-container form {
+            display: flex;
+            align-items: center;
+        }
+        .search-container input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+            width: 300px;
+        }
+        .search-container button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #45a049;
+        }
+        .login-button {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .login-button:hover {
+            background-color: #e53935;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -20,10 +57,13 @@
         </nav>
     </header>
     <main>
-        <form action="search.php" method="GET">
-            <input type="text" name="query" placeholder="Search for businesses...">
-            <button type="submit">Search</button>
-        </form>
+        <div class="search-container">
+            <form action="search.php" method="GET">
+                <input type="text" name="query" placeholder="Search for businesses...">
+                <button type="submit">Search</button>
+            </form>
+            <a href="login.php" class="login-button">Admin/Staff Login</a>
+        </div>
         <h2>Filter by Category</h2>
         <form action="search.php" method="GET">
             <select name="category_id">
@@ -31,7 +71,7 @@
                 <?php
                 $stmt = $conn->query("SELECT * FROM categories");
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value='" . $row['category_id'] . "'>" . $row['category_name'] . "</option>";
+                    echo "<option value='" . htmlspecialchars($row['category_id']) . "'>" . htmlspecialchars($row['category_name']) . "</option>";
                 }
                 ?>
             </select>
@@ -42,11 +82,10 @@
             <?php
             $stmt = $conn->query("SELECT * FROM categories");
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<li><a href='businesses.php?category_id=" . $row['category_id'] . "'>" . $row['category_name'] . "</a></li>";
+                echo "<li><a href='businesses.php?category_id=" . htmlspecialchars($row['category_id']) . "'>" . htmlspecialchars($row['category_name']) . "</a></li>";
             }
             ?>
         </ul>
-        <h2><a href="./login.php">Admin/Staff Login</a></h2>
     </main>
     <footer>
         <p>&copy; 2025 Nkozi Online</p>

@@ -7,6 +7,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uganda Connect - Add Business</title>
     <link rel="stylesheet" href="styles.css"> <!-- Add your CSS file here -->
+    <style>
+        .form-table {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        .form-table th, .form-table td {
+            padding: 10px;
+            text-align: left;
+        }
+        .form-table th {
+            width: 30%;
+        }
+        .form-table td {
+            width: 70%;
+        }
+        .form-table input, .form-table select, .form-table textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-table button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-table button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -21,26 +54,46 @@
     <main>
         <h2>Add Business</h2>
         <form action="submit_business.php" method="POST">
-            <label for="category_id">Category:</label>
-            <select name="category_id" id="category_id" required>
-                <?php
-                $stmt = $conn->query("SELECT * FROM categories");
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value='" . $row['category_id'] . "'>" . $row['category_name'] . "</option>";
-                }
-                ?>
-            </select><br>
-            <label for="name">Business Name:</label>
-            <input type="text" name="name" id="name" required><br>
-            <label for="description">Description:</label>
-            <textarea name="description" id="description" required></textarea><br>
-            <label for="contact_phone">Contact Phone:</label>
-            <input type="text" name="contact_phone" id="contact_phone" required><br>
-            <label for="address">Address:</label>
-            <input type="text" name="address" id="address" required><br>
-            <label for="website">Website:</label>
-            <input type="url" name="website" id="website"><br>
-            <button type="submit">Submit</button>
+            <table class="form-table">
+                <tr>
+                    <th><label for="category_id">Category:</label></th>
+                    <td>
+                        <select name="category_id" id="category_id" required>
+                            <?php
+                            $stmt = $conn->query("SELECT * FROM categories");
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<option value='" . htmlspecialchars($row['category_id']) . "'>" . htmlspecialchars($row['category_name']) . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="name">Business Name:</label></th>
+                    <td><input type="text" name="name" id="name" required></td>
+                </tr>
+                <tr>
+                    <th><label for="description">Description:</label></th>
+                    <td><textarea name="description" id="description" required></textarea></td>
+                </tr>
+                <tr>
+                    <th><label for="contact_phone">Contact Phone:</label></th>
+                    <td><input type="text" name="contact_phone" id="contact_phone" required></td>
+                </tr>
+                <tr>
+                    <th><label for="address">Address:</label></th>
+                    <td><input type="text" name="address" id="address" required></td>
+                </tr>
+                <tr>
+                    <th><label for="website">Website:</label></th>
+                    <td><input type="url" name="website" id="website"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button type="submit">Submit</button>
+                    </td>
+                </tr>
+            </table>
         </form>
     </main>
     <footer>
