@@ -1,14 +1,10 @@
-<?php
-// Include database connection.
-include 'db_connection.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nkozi Online - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -17,7 +13,7 @@ include 'db_connection.php';
             background-color: #f0f4f8;
             color: #333;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Changed to column */
             min-height: 100vh;
             transition: background-color 0.5s ease;
         }
@@ -45,6 +41,7 @@ include 'db_connection.php';
         header nav a:hover {
             text-decoration: underline;
         }
+
         main {
             background-color: white;
             padding: 2rem;
@@ -61,26 +58,28 @@ include 'db_connection.php';
             align-items: center;
             margin: 2rem auto;
         }
-        main h2 {
+
+        .login-container h2 {
             color: #007BFF;
             margin-bottom: 1.5rem;
             font-size: 1.8rem;
-            order: 1; /* Added order property */
         }
-        form {
+
+        .login-form {
             display: flex;
             flex-direction: column;
             align-items: center;
-            order: 2; /* Added order property */
             width: 100%;
         }
-        form label {
+
+        .login-form label {
             margin-top: 1rem;
             font-size: 1rem;
             align-self: flex-start;
             color: #555;
         }
-        form input {
+
+        .login-form input {
             padding: 0.75rem;
             margin: 0.5rem 0;
             width: 100%;
@@ -89,12 +88,14 @@ include 'db_connection.php';
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
-        form input:focus {
+
+        .login-form input:focus {
             outline: none;
             border-color: #007BFF;
             box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
         }
-        form button {
+
+        .login-form button {
             padding: 0.75rem 1.5rem;
             background-color: #007BFF;
             color: white;
@@ -106,10 +107,19 @@ include 'db_connection.php';
             transition: background-color 0.3s ease, transform 0.2s ease;
             width: 100%;
         }
-        form button:hover {
+
+        .login-form button:hover {
             background-color: #0056b3;
             transform: translateY(-2px);
         }
+
+        .error-message {
+            color: red;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
         footer {
             margin-top: 2rem;
             text-align: center;
@@ -119,14 +129,17 @@ include 'db_connection.php';
             background-color: #f0f4f8;
             border-top: 1px solid #ddd;
         }
+
         @media (max-width: 768px) {
             main {
                 width: 95%;
             }
-            form input {
+
+            .login-form input {
                 width: 100%;
             }
-            form button {
+
+            .login-form button {
                 width: 100%;
             }
         }
@@ -139,18 +152,25 @@ include 'db_connection.php';
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
             <a href="businesses.php">Businesses</a>
-            <a href="add_business.php">Add Business</a>
         </nav>
     </header>
     <main>
-        <h2>Admin/Staff Login</h2>
-        <form action="process_login.php" method="POST">
+        <h2>Login</h2>
+        <?php if (isset($_GET['error'])): ?>
+            <p class="error-message"><?php echo htmlspecialchars($_GET['error']); ?></p>
+        <?php endif; ?>
+        <form class="login-form" action="process_login.php" method="POST">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Login</button>
         </form>
+        <p style="margin-top: 1rem;">
+            <a href="register.php" style="color: #007BFF; text-decoration: none; font-size: 0.9rem;">
+                Don't have an account? Register
+            </a>
+        </p>
     </main>
     <footer>
         <p>&copy; 2025 Nkozi Online</p>
