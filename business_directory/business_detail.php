@@ -1,4 +1,3 @@
-<!-- filepath: c:\WAMP_SERVER\www\business_directory\business_detail.php -->
 <?php
 include 'db_connection.php';
 
@@ -23,12 +22,101 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($business['name'] ?? ''); ?> - Uganda Connect</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Add your CSS file here -->
+    <title><?php echo htmlspecialchars($business['name'] ?? ''); ?> - Nkozi Online</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        header nav {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        header nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        main h2 {
+            font-size: 2.25rem;
+            color: #2d3748;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        main p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+        main strong {
+            color: #1a202c;
+        }
+        main a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        main a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            padding: 1rem;
+            background-color: #f0f4f8;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            header nav {
+                flex-direction: column;
+            }
+            header nav a {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Uganda Connect</h1>
+        <h1>Nkozi Online</h1>
         <nav>
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
@@ -42,11 +130,11 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
         <p><strong>Description:</strong> <?php echo htmlspecialchars($business['description'] ?? ''); ?></p>
         <p><strong>Contact:</strong> <?php echo htmlspecialchars($business['contact_phone'] ?? ''); ?></p>
         <p><strong>Address:</strong> <?php echo htmlspecialchars($business['address'] ?? ''); ?></p>
-        <p><strong>Website:</strong> <a href="<?php echo htmlspecialchars($business['website'] ?? ''); ?>" target="_blank"><?php echo htmlspecialchars($business['website'] ?? ''); ?></a></p>
+        <p><strong>Website:</strong> <a href="<?php echo htmlspecialchars($business['website'] ?? ''); ?>" target="_blank" rel="noopener noreferrer"><?php echo htmlspecialchars($business['website'] ?? ''); ?></a></p>
         <p><strong>Submitted By:</strong> <?php echo htmlspecialchars($business['username'] ?? ''); ?></p>
     </main>
     <footer>
-        <p>&copy; 2025 Uganda Connect</p>
+        <p>&copy; 2025 Nkozi Online</p>
     </footer>
 </body>
 </html>
