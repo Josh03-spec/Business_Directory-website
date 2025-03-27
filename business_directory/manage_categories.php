@@ -1,4 +1,3 @@
-<!-- filepath: c:\WAMP_SERVER\www\Business_Directory-website\business_directory\manage_categories.php -->
 <?php
 include 'db_connection.php';
 session_start();
@@ -76,58 +75,250 @@ $total_pages = ceil($total_results / $results_per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Categories - Uganda Connect</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
+        /* Global Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+            width: 100%;
+        }
+        header nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.1rem;
+        }
+        header nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-0.125rem);
+        }
+        /* Specific styling for Admin Dashboard and Logout */
+        header nav a[href="admin_dashboard.php"]:hover {
+            background-color: #28a745; /* Green on hover */
+        }
+        header nav a[href="logout.php"]:hover {
+            background-color: #dc3545; /* Red on hover */
+        }
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        main h2 {
+            font-size: 2.25rem;
+            color: #2d3748;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
         .form-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            gap: 1.5rem;
         }
         .form-container form {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 400px;
         }
         .form-container input[type="text"] {
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 300px;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            width: 100%;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+        .form-container input[type="text"]:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
         .form-container button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            padding: 0.75rem 1.5rem;
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 0.375rem;
             cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
         }
         .form-container button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
+            transform: translateY(-0.125rem);
         }
         .category-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 2rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
         }
         .category-table th, .category-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
         }
         .category-table th {
-            background-color: #f2f2f2;
+            background-color: #f7fafc;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        .category-table td {
+            color: #4a5568;
+        }
+        .category-table tbody tr:hover {
+            background-color: #edf2f7;
         }
         .category-table button {
-            padding: 5px 10px;
-            background-color: #f44336;
-            color: white;
+            padding: 0.5rem 1rem;
             border: none;
-            border-radius: 4px;
+            border-radius: 0.375rem;
             cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
         }
         .category-table button:hover {
-            background-color: #e53935;
+            transform: translateY(-0.125rem);
+        }
+        .category-table button.edit {
+            background-color: #007BFF;
+            color: white;
+        }
+        .category-table button.edit:hover {
+            background-color: #0056b3;
+        }
+        .category-table button.delete {
+            background-color: #DC143C;
+            color: white;
+        }
+        .category-table button.delete:hover {
+            background-color: #B22222;
+        }
+        .category-table button.status {
+            background-color: #28a745;
+            color: white;
+        }
+        .category-table button.status:hover {
+            background-color: #218838;
+        }
+        .category-table button.status.disabled {
+            background-color: #6c757d;
+            color: white;
+        }
+        .category-table button.status.disabled:hover {
+            background-color: #5a6268;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .pagination a {
+            color: #007BFF;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 1rem;
+        }
+        .pagination a:hover {
+            background-color: #007BFF;
+            color: white;
+            border-color: #007BFF;
+            transform: translateY(-0.125rem);
+        }
+        .pagination a.active {
+            background-color: #007BFF;
+            color: white;
+            border-color: #007BFF;
+        }
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.25rem;
+            color: #6b7280;
+        }
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            padding: 1rem;
+            background-color: #f0f4f8;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+            header h1 {
+                margin-bottom: 1rem;
+            }
+            header nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            .form-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .form-container form {
+                width: 100%;
+                max-width: none;
+            }
+            .form-container input[type="text"] {
+                margin-bottom: 0;
+            }
+            .form-container button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -155,46 +346,50 @@ $total_pages = ceil($total_results / $results_per_page);
                 <button type="submit" name="create">Create Category</button>
             </form>
         </div>
-        <table class="category-table">
-            <thead>
-                <tr>
-                    <th>Category ID</th>
-                    <th>Category Name</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($categories as $category): ?>
+        <?php if (count($categories) > 0): ?>
+            <table class="category-table">
+                <thead>
                     <tr>
-                        <td><?php echo htmlspecialchars($category['category_id']); ?></td>
-                        <td><?php echo htmlspecialchars($category['category_name']); ?></td>
-                        <td><?php echo $category['status'] ? 'Enabled' : 'Disabled'; ?></td>
-                        <td>
-                            <form action="manage_categories.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
-                                <input type="hidden" name="category_name" value="<?php echo $category['category_name']; ?>">
-                                <button type="submit" name="rename">Rename</button>
-                            </form>
-                            <form action="manage_categories.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
-                                <button type="submit" name="delete">Delete</button>
-                            </form>
-                            <form action="manage_categories.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
-                                <input type="hidden" name="status" value="<?php echo $category['status']; ?>">
-                                <button type="submit" name="toggle_status"><?php echo $category['status'] ? 'Disable' : 'Enable'; ?></button>
-                            </form>
-                        </td>
+                        <th>Category ID</th>
+                        <th>Category Name</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <div>
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search_term); ?>"><?php echo $i; ?></a>
-            <?php endfor; ?>
-        </div>
+                </thead>
+                <tbody>
+                    <?php foreach ($categories as $category): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($category['category_id']); ?></td>
+                            <td><?php echo htmlspecialchars($category['category_name']); ?></td>
+                            <td><?php echo $category['status'] ? 'Enabled' : 'Disabled'; ?></td>
+                            <td>
+                                <form action="manage_categories.php" method="POST" style="display:inline-block;">
+                                    <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
+                                    <input type="hidden" name="category_name" value="<?php echo $category['category_name']; ?>">
+                                    <button type="submit" name="rename" class="edit">Rename</button>
+                                </form>
+                                <form action="manage_categories.php" method="POST" style="display:inline-block;">
+                                    <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
+                                    <button type="submit" name="delete" class="delete">Delete</button>
+                                </form>
+                                <form action="manage_categories.php" method="POST" style="display:inline-block;">
+                                    <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
+                                    <input type="hidden" name="status" value="<?php echo $category['status']; ?>">
+                                    <button type="submit" name="toggle_status" class="<?php echo $category['status'] ? 'status' : 'status disabled'; ?>"><?php echo $category['status'] ? 'Disable' : 'Enable'; ?></button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search_term); ?>" <?php if ($i == $page) echo 'class="active"'; ?>><?php echo $i; ?></a>
+                <?php endfor; ?>
+            </div>
+        <?php else: ?>
+            <p class="no-results">No categories found.</p>
+        <?php endif; ?>
     </main>
     <footer>
         <p>&copy; 2025 Uganda Connect</p>

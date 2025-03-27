@@ -185,6 +185,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
         header nav a:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
+        header nav a[href="admin_dashboard.php"]:hover {
+            background-color: #28a745; /* Green on hover */
+        }
+        header nav a[href="logout.php"]:hover {
+            background-color: #dc3545; /* Red on hover */
+        }
         main {
             padding: 2rem;
             flex: 1;
@@ -383,6 +389,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
             <a href="businesses.php">Businesses</a>
+            <a href="admin_dashboard.php">Admin Dashboard</a>
             <a href="logout.php">Logout</a>
         </nav>
     </header>

@@ -128,10 +128,18 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
         <h2><?php echo htmlspecialchars($business['name'] ?? ''); ?></h2>
         <p><strong>Category:</strong> <?php echo htmlspecialchars($business['category_name'] ?? ''); ?></p>
         <p><strong>Description:</strong> <?php echo htmlspecialchars($business['description'] ?? ''); ?></p>
-        <p><strong>Contact:</strong> <?php echo htmlspecialchars($business['contact_phone'] ?? ''); ?></p>
-        <p><strong>Address:</strong> <?php echo htmlspecialchars($business['address'] ?? ''); ?></p>
-        <p><strong>Website:</strong> <a href="<?php echo htmlspecialchars($business['website'] ?? ''); ?>" target="_blank" rel="noopener noreferrer"><?php echo htmlspecialchars($business['website'] ?? ''); ?></a></p>
-        <p><strong>Submitted By:</strong> <?php echo htmlspecialchars($business['username'] ?? ''); ?></p>
+        <p><strong>Contact:</strong> <?php echo htmlspecialchars($business['contact_phone'] ?? 'Not available'); ?></p>
+        <p><strong>Address:</strong> <?php echo htmlspecialchars($business['address'] ?? 'Not available'); ?></p>
+        <p><strong>Website:</strong> 
+            <?php 
+            if (!empty($business['website'])) {
+                echo '<a href="' . htmlspecialchars($business['website']) . '" target="_blank" rel="noopener noreferrer">' . htmlspecialchars($business['website']) . '</a>';
+            } else {
+                echo 'No website available';
+            }
+            ?>
+        </p>
+        <p><strong>Submitted By:</strong> <?php echo htmlspecialchars($business['username'] ?? 'Unknown'); ?></p>
     </main>
     <footer>
         <p>&copy; 2025 Nkozi Online</p>

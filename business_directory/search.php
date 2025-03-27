@@ -225,7 +225,7 @@ $total_pages = ceil($total_results / $results_per_page);
                         <p><strong>Description:</strong> <?php echo htmlspecialchars($result['description']); ?></p>
                         <p><strong>Contact:</strong> <?php echo htmlspecialchars($result['contact_phone']); ?></p>
                         <p><strong>Address:</strong> <?php echo htmlspecialchars($result['address']); ?></p>
-                        <p><strong>Website:</strong> <?php echo htmlspecialchars($result['website']); ?></p>
+                        <p><strong>Website:</strong> <?php echo $result['website'] ? '<a href="' . htmlspecialchars($result['website']) . '" target="_blank">' . htmlspecialchars($result['website']) . '</a>' : 'No website available'; ?></p>
                     </li>
                 <?php endforeach; ?>
             </ul>
