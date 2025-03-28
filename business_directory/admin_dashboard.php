@@ -2,13 +2,22 @@
 include 'db_connection.php';
 session_start();
 
+// Session inactivity timeout
+$inactive = 1800; // 30 minutes
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $inactive)) {
+    session_unset();     // unset $_SESSION variable for the run-time
+    session_destroy();   // destroy session data in storage
+    header("Location: login.php");
+    exit;
+}
+$_SESSION['last_activity'] = time(); // update last activity time
+
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
     header("Location: login.php");
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,7 +167,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
             <li><a href="manage_categories.php">Manage Categories</a></li>
             <li><a href="manage_businesses.php">Manage Businesses</a></li>
             <li><a href="manage_reviews.php">Manage Reviews</a></li>
-            <li><a href="manage_users.php">Manage Users</a></li>
+             <li><a href="manage_users.php">Manage Users</a></li>
         </ul>
         <div class="admin-links">
             <a href="add_business.php">Add Business</a>

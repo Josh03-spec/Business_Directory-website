@@ -2,6 +2,16 @@
 include 'db_connection.php';
 session_start();
 
+// Session inactivity timeout
+$inactive = 1800; // 30 minutes
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $inactive)) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+$_SESSION['last_activity'] = time();
+
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
     header("Location: login.php");
@@ -74,7 +84,7 @@ $total_pages = ceil($total_results / $results_per_page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Categories - Uganda Connect</title>
+    <title>Manage Categories - Nkozi Online</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         /* Global Styles */
@@ -324,7 +334,7 @@ $total_pages = ceil($total_results / $results_per_page);
 </head>
 <body>
     <header>
-        <h1>Uganda Connect</h1>
+        <h1>Nkozi Online</h1>
         <nav>
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
@@ -363,16 +373,15 @@ $total_pages = ceil($total_results / $results_per_page);
                             <td><?php echo htmlspecialchars($category['category_name']); ?></td>
                             <td><?php echo $category['status'] ? 'Enabled' : 'Disabled'; ?></td>
                             <td>
-                                <form action="manage_categories.php" method="POST" style="display:inline-block;">
+                                <form action="rename_category.php" method="GET" style="display:inline-block;">
                                     <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
-                                    <input type="hidden" name="category_name" value="<?php echo $category['category_name']; ?>">
-                                    <button type="submit" name="rename" class="edit">Rename</button>
+                                    <button type="submit" class="edit">Rename</button>
                                 </form>
                                 <form action="manage_categories.php" method="POST" style="display:inline-block;">
                                     <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
                                     <button type="submit" name="delete" class="delete">Delete</button>
                                 </form>
-                                <form action="manage_categories.php" method="POST" style="display:inline-block;">
+                                 <form action="manage_categories.php" method="POST" style="display:inline-block;">
                                     <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
                                     <input type="hidden" name="status" value="<?php echo $category['status']; ?>">
                                     <button type="submit" name="toggle_status" class="<?php echo $category['status'] ? 'status' : 'status disabled'; ?>"><?php echo $category['status'] ? 'Disable' : 'Enable'; ?></button>
@@ -392,7 +401,7 @@ $total_pages = ceil($total_results / $results_per_page);
         <?php endif; ?>
     </main>
     <footer>
-        <p>&copy; 2025 Uganda Connect</p>
+        <p>&copy; 2025 Nkozi Online</p>
     </footer>
 </body>
 </html>

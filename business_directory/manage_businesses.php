@@ -2,6 +2,16 @@
 include 'db_connection.php';
 session_start();
 
+// Session inactivity timeout
+$inactive = 1800; // 30 minutes
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $inactive)) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+$_SESSION['last_activity'] = time();
+
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
     header("Location: login.php");
@@ -190,7 +200,7 @@ $total_pages = ceil($total_results / $results_per_page);
             padding: 1.25rem;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
-            text-overflow: ellipsis;
+             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
             max-width: 200px;

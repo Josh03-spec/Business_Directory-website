@@ -127,14 +127,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
             $stmt = $conn->prepare("SELECT user_id, username, role FROM users");
             $stmt->execute();
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-           
+            
 
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage());
             $error_message = "An error occurred while adding user.";
         }
     }else{
-         $error_message = "Please correct the errors in the form.";
+        $error_message = "Please correct the errors in the form.";
     }
 }
 ?>
@@ -373,7 +373,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-             header nav {
+            header nav {
                 flex-direction: column;
             }
             header nav a{

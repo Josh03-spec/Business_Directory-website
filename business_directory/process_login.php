@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php';
+include 'db_connection.php'; // Make sure this path is correct
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -17,6 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['admin_logged_in'] = ($user['role'] === 'admin');  //set admin session
+
+            // Store the last activity time
+            $_SESSION['last_activity'] = time();
+
+            // Regenerate session ID for security
+            session_regenerate_id(true);
 
             // Debugging: Check the role value
             error_log("User role: " . $user['role']);
@@ -29,15 +36,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     break;
                 case 'editor':
                     error_log("Redirecting to manage_categories.php");
-                    header("Location: manage_categories.php"); // Or some other page
+                    header("Location: manage_categories.php");
                     break;
-                case 'business':
+                 case 'business':
                     error_log("Redirecting to manage_businesses.php");
                     header("Location: manage_businesses.php");
                     break;
                 default:
                     error_log("Redirecting to index.php");
-                    header("Location: index.php"); // Or a general user page. Consider a 403.
+                    header("Location: index.php");
+                    break;
             }
             exit;
         } else {

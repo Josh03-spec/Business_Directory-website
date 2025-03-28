@@ -1,4 +1,3 @@
-<!-- filepath: c:\WAMP_SERVER\www\Business_Directory-website\business_directory\confirm_delete_business.php -->
 <?php
 include 'db_connection.php';
 session_start();
