@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
-            $_SESSION['admin_logged_in'] = ($user['role'] === 'admin');  //set admin session
+            $_SESSION['admin_logged_in'] = ($user['role'] === 'admin');  // Set admin session
 
             // Store the last activity time
             $_SESSION['last_activity'] = time();
@@ -25,11 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Regenerate session ID for security
             session_regenerate_id(true);
 
+            // Normalize role value to lowercase
+            $role = strtolower($user['role']);
+
             // Debugging: Check the role value
-            error_log("User role: " . $user['role']);
+            error_log("User role: " . $role);
 
             // Redirect based on user role
-            switch ($user['role']) {
+            switch ($role) {
                 case 'admin':
                     error_log("Redirecting to admin_dashboard.php");
                     header("Location: admin_dashboard.php");
@@ -38,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     error_log("Redirecting to manage_categories.php");
                     header("Location: manage_categories.php");
                     break;
-                 case 'business':
+                case 'business':
                     error_log("Redirecting to manage_businesses.php");
                     header("Location: manage_businesses.php");
                     break;
@@ -57,8 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (PDOException $e) {
         // Handle database errors
         error_log("Database error: " . $e->getMessage());
-        header("Location: login.php?error=An error occurred. Please try again later.");
-        exit;
     }
 } else {
     // If the user tries to access this page directly (not via POST)

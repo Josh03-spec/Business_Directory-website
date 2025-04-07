@@ -266,13 +266,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete'])) {
                             <td><a href="<?php echo htmlspecialchars($business['website'] ?? ''); ?>" target="_blank"><?php echo htmlspecialchars($business['website'] ?? ''); ?></a></td>
                             <td><?php echo htmlspecialchars($business['username'] ?? ''); ?></td>
                             <td>
-                                <form method="post" action="approve_businesses.php?page=<?php echo $page; ?>" style="display:inline;">
+                                <form method="get" action="confirm_delete_approval.php" style="display:inline;">
                                     <input type="hidden" name="business_id" value="<?php echo $business['business_id']; ?>">
-                                    <button type="submit" name="approve" class="approve-button">Approve</button>
+                                    <input type="hidden" name="page" value="<?php echo $page; ?>">
+                                    <button type="submit" class="delete-button">Delete</button>
                                 </form>
                                 <form method="post" action="approve_businesses.php?page=<?php echo $page; ?>" style="display:inline;">
                                     <input type="hidden" name="business_id" value="<?php echo $business['business_id']; ?>">
-                                    <button type="submit" name="delete" class="delete-button">Delete</button>
+                                    <button type="submit" name="approve" class="approve-button">Approve</button>
                                 </form>
                             </td>
                         </tr>

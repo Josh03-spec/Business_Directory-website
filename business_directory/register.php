@@ -55,23 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
         try {
-            // Insert the new user into the database
-            $stmt = $conn->prepare("INSERT INTO users (username, password_hash, role) VALUES (:username, :password_hash, 'user')");
+            $stmt = $conn->prepare("INSERT INTO users (username, password_hash) VALUES (:username, :password_hash)");
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':password_hash', $password_hash);
             $stmt->execute();
-
-            // Set success flag
             $registration_success = true;
-
-            // Optionally, you could redirect the user to the login page here
-            // header("Location: login.php");
-            // exit;
-
         } catch (PDOException $e) {
-            // Handle database errors
-            error_log("Database error: " . $e->getMessage());
-            $general_err = "An error occurred. Please try again later.";
+            $general_err = "An error occurred during registration.";
         }
     }
 }
