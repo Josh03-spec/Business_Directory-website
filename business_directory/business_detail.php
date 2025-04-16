@@ -299,26 +299,11 @@ $total_pages = ceil($total_reviews / $reviews_per_page);
                 </div>
             </div>
 
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <div class="review-form">
-                    <h4>Write a Review</h4>
-                    <form action="submit_review.php" method="POST">
-                        <input type="hidden" name="business_id" value="<?php echo $business_id; ?>">
-                        <div class="rating-stars">
-                            <select name="rating" required>
-                                <option value="">Select Rating</option>
-                                <?php for ($i = 5; $i >= 1; $i--): ?>
-                                    <option value="<?php echo $i; ?>"><?php echo $i; ?> Stars</option>
-                                <?php endfor; ?>
-                            </select>
-                        </div>
-                        <textarea name="review_text" rows="4" placeholder="Write your review..." required></textarea>
-                        <button type="submit" class="submit-button">Submit Review</button>
-                    </form>
-                </div>
-            <?php else: ?>
-                <p><a href="login.php">Log in</a> to write a review</p>
-            <?php endif; ?>
+            <!-- Replace review form with a "Submit a Review" link -->
+            <div class="review-form">
+                <h4>Write a Review</h4>
+                <p><a href="submit_review.php?business_id=<?php echo $business_id; ?>" class="submit-review-link">Submit a Review</a></p>
+            </div>
 
             <div class="reviews-list">
                 <?php if (count($reviews) > 0): ?>

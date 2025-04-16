@@ -326,7 +326,7 @@ $total_pages = ceil($total_results / $results_per_page);
 </head>
 <body>
     <header>
-        <h1>Uganda Connect</h1>
+        <h1>Nkozi Online</h1>
         <nav>
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
@@ -385,7 +385,7 @@ $total_pages = ceil($total_results / $results_per_page);
         <?php endif; ?>
     </main>
     <footer>
-        <p>&copy; 2025 Uganda Connect</p>
+        <p>&copy; 2025 Nkozi Online</p>
     </footer>
 </body>
 </html>

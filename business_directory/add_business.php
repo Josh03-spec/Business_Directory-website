@@ -148,6 +148,7 @@
         </nav>
     </header>
     <main class="container mx-auto py-8">
+        <h2>Add Business</h2>
         
         <form action="submit_business.php" method="POST" class="w-full">
             <table class="form-table">
