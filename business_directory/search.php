@@ -46,7 +46,7 @@ $total_pages = ceil($total_results / $results_per_page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - Uganda Connect</title>
+    <title>Search Results - Nkozi Online</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         /* Global Styles */
@@ -207,7 +207,7 @@ $total_pages = ceil($total_results / $results_per_page);
 </head>
 <body>
     <header>
-        <h1>Uganda Connect</h1>
+        <h1>Nkozi Online</h1>
         <nav>
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
@@ -225,7 +225,7 @@ $total_pages = ceil($total_results / $results_per_page);
                         <p><strong>Description:</strong> <?php echo htmlspecialchars($result['description']); ?></p>
                         <p><strong>Contact:</strong> <?php echo htmlspecialchars($result['contact_phone']); ?></p>
                         <p><strong>Address:</strong> <?php echo htmlspecialchars($result['address']); ?></p>
-                        <p><strong>Website:</strong> <?php echo $result['website'] ? '<a href="' . htmlspecialchars($result['website']) . '" target="_blank">' . htmlspecialchars($result['website']) . '</a>' : 'No website available'; ?></p>
+                        <p><strong>Website:</strong> <?php echo htmlspecialchars($result['website'] ?? ''); ?></p>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -239,7 +239,7 @@ $total_pages = ceil($total_results / $results_per_page);
         <?php endif; ?>
     </main>
     <footer>
-        <p>&copy; 2025 Uganda Connect</p>
+        <p>&copy; 2025 Nkozi Online</p>
     </footer>
 </body>
 </html>

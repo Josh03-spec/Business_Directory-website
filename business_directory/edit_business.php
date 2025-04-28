@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Business - Uganda Connect</title>
+    <title>Edit Business - Nkozi Online</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         /* Global Styles */
@@ -254,7 +254,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <header>
-        <h1>Uganda Connect</h1>
+        <h1>Nkozi Online</h1>
         <nav>
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
@@ -333,7 +333,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </main>
     <footer>
-        <p style="text-align: center;">&copy; 2025 Uganda Connect</p>
+        <p style="text-align: center;">&copy; 2025 Nkozi Online</p>
     </footer>
 </body>
 </html>

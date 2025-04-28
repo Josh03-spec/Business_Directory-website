@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_delete'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Delete Business - Uganda Connect</title>
+    <title>Confirm Delete Business - Nkozi Online</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         /* Global Styles */
@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_delete'])) {
 </head>
 <body>
     <header>
-        <h1>Uganda Connect</h1>
+        <h1>Nkozi Online</h1>
         <nav>
             <a href="index.php">Home</a>
             <a href="categories.php">Categories</a>
@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_delete'])) {
         </form>
     </main>
     <footer>
-        <p>&copy; 2025 Uganda Connect</p>
+        <p>&copy; 2025 Nkozi Online</p>
     </footer>
 </body>
 </html>
